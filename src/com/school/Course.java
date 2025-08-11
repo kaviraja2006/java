@@ -1,23 +1,18 @@
 package com.school;
 
 public class Course {
+    private static int nextCourseIdCounter = 101; // Auto ID starts from 101
+    private int courseId;
     private String courseName;
-    private int courseCode;
 
-    public Course(String courseName, int courseCode) {
+    // Constructor
+    public Course(String courseName) {
+        this.courseId = nextCourseIdCounter++;
         this.courseName = courseName;
-        this.courseCode = courseCode;
     }
 
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public int getCourseCode() {
-        return courseCode;
-    }
-
-    public void displayInfo() {
-        System.out.println("Course Name: " + courseName + ", Code: " + courseCode);
+    public void displayDetails() {
+        System.out.println("Course ID: C" + courseId);
+        System.out.println("Course Name: " + courseName);
     }
 }
