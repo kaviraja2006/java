@@ -48,3 +48,15 @@ javac *.java
 2. Compile:
    ```bash
    javac src/com/school/*.java
+
+
+## Part 4: Data Encapsulation & Attendance Recording Validation
+- Applied encapsulation to `Student` and `Course` classes by making fields `private` and adding public getters.
+- Introduced a new `AttendanceRecord` class with private fields, a constructor, and getters to store attendance data.
+- Implemented validation in `AttendanceRecord` to only allow "Present" or "Absent" statuses.
+- Demonstrated storing attendance in an ArrayList and displaying the results.
+
+### How to Run
+```bash
+javac src/com/school/*.java
+java -cp src com.school.Main
