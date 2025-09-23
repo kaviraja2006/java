@@ -6,7 +6,7 @@ public class Person {
     protected String name;
 
     public Person(String name) {
-        this.id = nextIdCounter++;
+        this.id = nextIdCounter++;//a.id=1// b.id
         this.name = name;
     }
 
@@ -22,3 +22,9 @@ public class Person {
         System.out.println("ID: " + id + ", Name: " + name);
     }
 }
+//Person a= new Person(1,33);
+//Person b= new Person(1,33);
+//a.id;
+//a.nextIdCounter;
+//Person.nextIdCounter;--> belongs to class;
+//Person.id ; --> wrong , error;
