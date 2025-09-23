@@ -8,6 +8,15 @@ import com.school.Staff;
 import com.school.AttendanceRecord;
 
 public class Main {
+    // Polymorphic display of school directory
+    public static void displaySchoolDirectory(List<Person> people) {
+        System.out.println("=== School Directory ===");
+        for (Person person : people) {
+            person.displayDetails();
+            System.out.println("-----------------------------");
+        }
+    }
+
     public static void main(String[] args) {
         // Create students
         Student s1 = new Student("Alice", "10th Grade");
@@ -19,27 +28,39 @@ public class Main {
         // Create staff
         Staff st1 = new Staff("Karen", "Librarian");
 
-        // Display hierarchy details
-        System.out.println("=== Person Hierarchy Demo ===");
-        s1.displayDetails();
-        System.out.println("-----------------------------");
-        s2.displayDetails();
-        System.out.println("-----------------------------");
-        t1.displayDetails();
-        System.out.println("-----------------------------");
-        st1.displayDetails();
+        // Create courses
+        Course c1 = new Course(101, "Mathematics");
+        Course c2 = new Course(102, "Physics");
 
-        // Attendance log (using Person.getId())
+        // Add all people to schoolPeople list
+        ArrayList<Person> schoolPeople = new ArrayList<>();
+        schoolPeople.add(s1);
+        schoolPeople.add(s2);
+        schoolPeople.add(t1);
+        schoolPeople.add(st1);
+
+        // Display school directory using polymorphism
+        displaySchoolDirectory(schoolPeople);
+
+        // Attendance log (using Student and Course objects)
         List<AttendanceRecord> attendanceLog = new ArrayList<>();
+        attendanceLog.add(new AttendanceRecord(s1, c1, "Present"));
+        attendanceLog.add(new AttendanceRecord(s2, c2, "Absent"));
+        attendanceLog.add(new AttendanceRecord(s1, c2, "Late")); // Invalid
 
-        // Create records using inherited getId()
-        attendanceLog.add(new AttendanceRecord(s1.getId(), 101, "Present"));
-        attendanceLog.add(new AttendanceRecord(s2.getId(), 102, "Absent"));
-        attendanceLog.add(new AttendanceRecord(s1.getId(), 102, "Late")); // Invalid
-
-        System.out.println("\n=== Attendance Records ===");
+        System.out.println("\n=== Attendance Log ===");
         for (AttendanceRecord record : attendanceLog) {
             record.displayRecord();
         }
+
+        // Prepare students list for saving (filter from schoolPeople)
+        List<Student> students = new ArrayList<>();
+        for (Person p : schoolPeople) {
+            if (p instanceof Student) {
+                students.add((Student) p);
+            }
+        }
+        // Example: Save students to file (pseudo-code, actual FileStorageService not shown)
+        // FileStorageService.saveData(students, "students.txt");
     }
 }
