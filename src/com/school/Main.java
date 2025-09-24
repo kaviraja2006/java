@@ -39,28 +39,37 @@ public class Main {
         schoolPeople.add(t1);
         schoolPeople.add(st1);
 
+        // Prepare students and courses lists
+        List<Student> allStudents = new ArrayList<>();
+        allStudents.add(s1);
+        allStudents.add(s2);
+        List<Course> allCourses = new ArrayList<>();
+        allCourses.add(c1);
+        allCourses.add(c2);
+
         // Display school directory using polymorphism
         displaySchoolDirectory(schoolPeople);
 
-        // Attendance log (using Student and Course objects)
-        List<AttendanceRecord> attendanceLog = new ArrayList<>();
-        attendanceLog.add(new AttendanceRecord(s1, c1, "Present"));
-        attendanceLog.add(new AttendanceRecord(s2, c2, "Absent"));
-        attendanceLog.add(new AttendanceRecord(s1, c2, "Late")); // Invalid
+        // Create services
+        FileStorageService fileStorageService = new FileStorageService();
+        AttendanceService attendanceService = new AttendanceService(fileStorageService);
 
-        System.out.println("\n=== Attendance Log ===");
-        for (AttendanceRecord record : attendanceLog) {
-            record.displayRecord();
-        }
+        // Mark attendance using overloaded methods
+        attendanceService.markAttendance(s1, c1, "Present");
+        attendanceService.markAttendance(s2, c2, "Absent");
+        attendanceService.markAttendance(1, 102, "Present", allStudents, allCourses); // Alice for Physics
+        attendanceService.markAttendance(2, 101, "Absent", allStudents, allCourses); // Bob for Mathematics
 
-        // Prepare students list for saving (filter from schoolPeople)
-        List<Student> students = new ArrayList<>();
-        for (Person p : schoolPeople) {
-            if (p instanceof Student) {
-                students.add((Student) p);
-            }
-        }
-        // Example: Save students to file (pseudo-code, actual FileStorageService not shown)
-        // FileStorageService.saveData(students, "students.txt");
+        // Display all attendance records
+        attendanceService.displayAttendanceLog();
+
+        // Display attendance for a specific student
+        attendanceService.displayAttendanceLog(s1);
+
+        // Display attendance for a specific course
+        attendanceService.displayAttendanceLog(c1);
+
+        // Save attendance data
+        attendanceService.saveAttendanceData();
     }
 }
