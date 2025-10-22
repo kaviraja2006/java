@@ -1,64 +1,52 @@
 
+
 package com.school;
-import java.util.ArrayList;
 import java.util.List;
-import com.school.Student;
-import com.school.Teacher;
-import com.school.Staff;
-import com.school.AttendanceRecord;
 
 public class Main {
     // Polymorphic display of school directory
-    public static void displaySchoolDirectory(List<Person> people) {
+    public static void displaySchoolDirectory(RegistrationService regService) {
         System.out.println("=== School Directory ===");
-        for (Person person : people) {
+        for (Person person : regService.getAllPeople()) {
             person.displayDetails();
             System.out.println("-----------------------------");
         }
     }
 
     public static void main(String[] args) {
-        // Create students
+        // Create services
+        FileStorageService fileStorageService = new FileStorageService();
+        RegistrationService registrationService = new RegistrationService(fileStorageService);
+        AttendanceService attendanceService = new AttendanceService(fileStorageService, registrationService);
+
+        // Register students
         Student s1 = new Student("Alice", "10th Grade");
         Student s2 = new Student("Bob", "11th Grade");
+        registrationService.registerStudent(s1);
+        registrationService.registerStudent(s2);
 
-        // Create teacher
+        // Register teacher
         Teacher t1 = new Teacher("Mr. Smith", "Mathematics");
+        registrationService.registerTeacher(t1);
 
-        // Create staff
+        // Register staff
         Staff st1 = new Staff("Karen", "Librarian");
+        registrationService.registerStaff(st1);
 
         // Create courses
         Course c1 = new Course(101, "Mathematics");
         Course c2 = new Course(102, "Physics");
+        registrationService.createCourse(c1);
+        registrationService.createCourse(c2);
 
-        // Add all people to schoolPeople list
-        ArrayList<Person> schoolPeople = new ArrayList<>();
-        schoolPeople.add(s1);
-        schoolPeople.add(s2);
-        schoolPeople.add(t1);
-        schoolPeople.add(st1);
+        // Display school directory using RegistrationService
+        displaySchoolDirectory(registrationService);
 
-        // Prepare students and courses lists
-        List<Student> allStudents = new ArrayList<>();
-        allStudents.add(s1);
-        allStudents.add(s2);
-        List<Course> allCourses = new ArrayList<>();
-        allCourses.add(c1);
-        allCourses.add(c2);
-
-        // Display school directory using polymorphism
-        displaySchoolDirectory(schoolPeople);
-
-        // Create services
-        FileStorageService fileStorageService = new FileStorageService();
-        AttendanceService attendanceService = new AttendanceService(fileStorageService);
-
-        // Mark attendance using overloaded methods
+        // Mark attendance using new AttendanceService
         attendanceService.markAttendance(s1, c1, "Present");
         attendanceService.markAttendance(s2, c2, "Absent");
-        attendanceService.markAttendance(1, 102, "Present", allStudents, allCourses); // Alice for Physics
-        attendanceService.markAttendance(2, 101, "Absent", allStudents, allCourses); // Bob for Mathematics
+        attendanceService.markAttendance(s1.getId(), c2.getCourseId(), "Present"); // Alice for Physics
+        attendanceService.markAttendance(s2.getId(), c1.getCourseId(), "Absent"); // Bob for Mathematics
 
         // Display all attendance records
         attendanceService.displayAttendanceLog();
@@ -69,7 +57,8 @@ public class Main {
         // Display attendance for a specific course
         attendanceService.displayAttendanceLog(c1);
 
-        // Save attendance data
+        // Save all registrations and attendance data
+        registrationService.saveAllRegistrations();
         attendanceService.saveAttendanceData();
     }
 }
