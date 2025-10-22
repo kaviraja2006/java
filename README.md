@@ -1,6 +1,45 @@
 
 ## Part 9: SOLID Service Layer – RegistrationService & AttendanceService Separation
 
+## Part 10: Capacity Management & SOLID Principles Reflection
+
+### Features Added
+- Added capacity management to `Course` class:
+  - New fields: `capacity` and `enrolledStudents`
+  - Methods to track and manage enrollment
+  - Enhanced `displayDetails()` to show capacity and current enrollment
+  - Updated `toDataString()` to include capacity information
+- Enhanced `RegistrationService`:
+  - Added `enrollStudentInCourse` method
+  - Enrollment validation against course capacity
+- Updated `Main` class to demonstrate:
+  - Course creation with capacity limits
+  - Student enrollment process
+  - Capacity limit enforcement
+
+### SOLID Principles Application
+1. **Single Responsibility Principle (SRP)**:
+   - `RegistrationService`: Handles registration and enrollment
+   - `AttendanceService`: Manages attendance records
+   - `FileStorageService`: Handles data persistence
+   - `Course`: Manages its own capacity and enrolled students
+
+2. **Open/Closed Principle**:
+   - Classes are open for extension (e.g., new entity types can implement `Storable`)
+   - Core functionality is closed for modification
+
+3. **Liskov Substitution Principle**:
+   - `Student`, `Teacher`, and `Staff` can be used wherever `Person` is expected
+   - All implementations of `Storable` provide consistent behavior
+
+4. **Interface Segregation**:
+   - `Storable` interface is focused and minimal
+   - Classes only implement interfaces they need
+
+5. **Dependency Inversion**:
+   - Services depend on abstractions (interfaces)
+   - High-level modules aren't dependent on details
+
 - **Applied the Single Responsibility Principle (SRP):**
   - Introduced `RegistrationService.java` to manage registration, storage, and lookup of `Student`, `Teacher`, `Staff`, and `Course` entities.
   - `RegistrationService` handles all entity lists, provides registration and lookup methods, and saves data to files.

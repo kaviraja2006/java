@@ -1,7 +1,6 @@
 
 
 package com.school;
-import java.util.List;
 
 public class Main {
     // Polymorphic display of school directory
@@ -33,11 +32,24 @@ public class Main {
         Staff st1 = new Staff("Karen", "Librarian");
         registrationService.registerStaff(st1);
 
-        // Create courses
-        Course c1 = new Course(101, "Mathematics");
-        Course c2 = new Course(102, "Physics");
+        // Create courses with capacity
+        Course c1 = new Course(101, "Mathematics", 2);
+        Course c2 = new Course(102, "Physics", 1);
         registrationService.createCourse(c1);
         registrationService.createCourse(c2);
+
+        // Enroll students in courses
+        System.out.println("\n=== Course Enrollment ===");
+        registrationService.enrollStudentInCourse(s1, c1); // Alice in Math
+        registrationService.enrollStudentInCourse(s2, c1); // Bob in Math
+        registrationService.enrollStudentInCourse(s1, c2); // Alice in Physics
+        registrationService.enrollStudentInCourse(s2, c2); // Bob in Physics (should fail, capacity=1)
+
+        // Display course details
+        System.out.println("\n=== Course Details ===");
+        c1.displayDetails();
+        System.out.println("-----------------------------");
+        c2.displayDetails();
 
         // Display school directory using RegistrationService
         displaySchoolDirectory(registrationService);
