@@ -1,3 +1,50 @@
+
+## Part 9: SOLID Service Layer – RegistrationService & AttendanceService Separation
+
+- **Applied the Single Responsibility Principle (SRP):**
+  - Introduced `RegistrationService.java` to manage registration, storage, and lookup of `Student`, `Teacher`, `Staff`, and `Course` entities.
+  - `RegistrationService` handles all entity lists, provides registration and lookup methods, and saves data to files.
+- **Refactored `Teacher.java` and `Staff.java`:**
+  - Both now implement the `Storable` interface.
+  - Added `toDataString()` methods for file persistence.
+- **Refactored `AttendanceService.java`:**
+  - Now depends on `RegistrationService` for student/course lookups by ID.
+  - Removed internal lookup helpers; all lookups are delegated to `RegistrationService`.
+  - Focuses solely on attendance record management.
+- **Updated `Main.java`:**
+  - Instantiates `FileStorageService`, `RegistrationService`, and `AttendanceService` with proper dependencies.
+  - Uses `RegistrationService` for all entity creation and registration.
+  - Calls `registrationService.saveAllRegistrations()` and `attendanceService.saveAttendanceData()` to persist data.
+  - `displaySchoolDirectory` now uses `registrationService.getAllPeople()`.
+- **Persistence:**
+  - Data for students, teachers, staff, and courses is now saved to `students.txt`, `teachers.txt`, `staff.txt`, and `courses.txt` respectively.
+  - Attendance records are saved to `attendance_log.txt`.
+
+### How to Run
+
+1. Navigate to the project root directory.
+2. Compile all Java files:
+   ```bash
+   javac src/com/school/*.java
+   ```
+3. Run the application:
+   ```bash
+   java -cp src com.school.Main
+   ```
+4. Check for the following files to confirm persistence:
+   - `students.txt`
+   - `teachers.txt`
+   - `staff.txt`
+   - `courses.txt`
+   - `attendance_log.txt`
+
+---
+
+**Submission Checklist:**
+- [ ] Link to Pull Request.
+- [ ] Screenshot of console output.
+- [ ] Confirmation that `teachers.txt` and `staff.txt` are created/updated.
+- [ ] Console output after the commit.
 # Part 2 – Student & Course Management (Java)
 
 ## 📌 Overview

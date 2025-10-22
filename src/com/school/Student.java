@@ -1,6 +1,7 @@
+
 package com.school;
 
-public class Student extends Person {
+public class Student extends Person implements Storable {
     private String gradeLevel;
 
     public Student(String name, String gradeLevel) {
@@ -16,5 +17,10 @@ public class Student extends Person {
 
     public String getGradeLevel() {
         return gradeLevel;
+    }
+
+    @Override
+    public String toDataString() {
+        return getId() + "," + getName() + "," + gradeLevel;
     }
 }
