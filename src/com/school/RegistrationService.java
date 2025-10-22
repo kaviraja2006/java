@@ -30,6 +30,16 @@ public class RegistrationService {
         courses.add(course);
     }
 
+    public boolean enrollStudentInCourse(Student student, Course course) {
+        if (course.addStudent(student)) {
+            System.out.println("Successfully enrolled " + student.getName() + " in " + course.getCourseName());
+            return true;
+        } else {
+            System.out.println("Failed to enroll " + student.getName() + " in " + course.getCourseName() + " - Course is full!");
+            return false;
+        }
+    }
+
     public List<Student> getStudents() {
         return students;
     }
